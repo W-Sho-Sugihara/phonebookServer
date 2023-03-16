@@ -11,14 +11,14 @@ app.use(express.static("build"));
 
 // logger middleware (morgan)
 const morgan = require("morgan");
-morgan.token("body", (req, res) => JSON.stringify(req.body));
+morgan.token("body", (req) => JSON.stringify(req.body));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
 // mongoose module import
 const Person = require("./model/mongo");
-const { request, query } = require("express");
+// const { request, query } = require("express");
 
 // RETRIEVING COLLECTIONS
 const getAllPersons = async () => {
@@ -66,12 +66,6 @@ app.post("/api/persons", async (request, response, next) => {
   const name = body.name;
   const number = body.number;
 
-  // if (!name || name.length === 0) {
-  //   return response.status(404).json({
-  //     error: "missing name",
-  //   });
-  // }
-
   const found = await Person.find({ name });
   if (found.name === name) {
     response.statusMessage = "Contact already exists";
@@ -93,7 +87,7 @@ app.post("/api/persons", async (request, response, next) => {
   }
 });
 
-app.put("/api/persons/:id", async (request, response) => {
+app.put("/api/persons/:id", async (request, response, next) => {
   const id = request.params.id;
   const { name, number } = request.body;
 
