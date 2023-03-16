@@ -17,7 +17,7 @@ app.use(
 );
 
 // mongoose module import
-const Person = require("../phonebookServer/model/mongo");
+const Person = require("./model/mongo");
 const { request, query } = require("express");
 
 // RETRIEVING COLLECTIONS
